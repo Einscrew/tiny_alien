@@ -1,4 +1,4 @@
-#! /usr/bin/node
+#! /usr/bin/nodejs
 console.log('The bot is starting');
 
 var Twit = require('twit');
@@ -27,7 +27,22 @@ function answer(tweet){
 		in_reply_to_screen_name: to
 		//auto_populate_reply_metatweet: true
 	}
-	T.post('statuses/update', stat , (err, data, response) => { console.log(data.text) })
+	T.post('statuses/update', stat , (err, data, response) => {
+		var fs = require('fs');
+		var json = JSON.stringify(data, null, 2);
+		fs.writeFile("tweet.json",json, function(err) {
+	    	if (err) {
+	    		console.log('Error');
+	    	}
+	    });
+
+		if(err){
+			console.log(data)
+			process.exit(1);
+		}else{
+			console.log(data.text)
+		}
+	})
 }
 
 function formatText(s) {
