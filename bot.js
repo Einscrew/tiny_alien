@@ -10,8 +10,10 @@ var T = new Twit(config);
 var stream = T.stream('statuses/filter', { follow:['2607163646','2758649640'] })
 
 stream.on('tweet', function (tweet) {
-	if(tweet.text.search('RT @') == -1 && tweet.text.search('@_tiny_alien_') == -1){
+	if(tweet.text.search('RT @') == -1 &&
+		tweet.text.search('@_tiny_alien_') == -1){
 		console.log('answering')
+		tweet.text.replace("@_tiny_alien_", "")
 		answer(tweet);
 	}
 })
